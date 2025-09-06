@@ -25,4 +25,5 @@
  ```
 
 *Paciencia plims que me cuesta Git*
-![miau](/utils/kitty.jpg)
+
+![miau](/utils/kitty.png)
