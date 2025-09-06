@@ -14,6 +14,7 @@
  ┃ ┣ 📜5_continent.sql
  ┃ ┣ 📜6_continents-data.sql
  ┃ ┣ 📜7_modify_country.sql
+ ┃ ┣ 📜consultas.sql
  ┃ ┗ 📜execute.sql
  ┣ 📂utils
  ┗ 📜README.md
