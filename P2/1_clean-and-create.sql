@@ -1,0 +1,5 @@
+DROP DATABASE world;
+
+CREATE DATABASE IF NOT EXISTS world;
+
+USE world;

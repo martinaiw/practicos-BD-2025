@@ -1,0 +1,1 @@
+ALTER TABLE country ADD CONSTRAINT fk_country_continent FOREIGN KEY (Continent) REFERENCES continent (Name);
