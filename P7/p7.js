@@ -42,13 +42,12 @@ db.comments.insertMany([
   },
 ]);
 
-
 //Ejercicio 2
 
 db.movies
   .find(
     {
-      year: { $gte: "1990", $lte: "1999"},
+      year: { $gte: "1990", $lte: "1999" },
       "imdb.rating": { $type: "double" },
     },
     { title: 1, year: 1, cast: 1, directors: 1, "imdb.rating": 1 }
@@ -58,3 +57,31 @@ db.movies
   .forEach(printjson);
 
 //La pelicula con mayor rating tiene 9 puntos
+
+//Ejercicio 3
+db.comments
+  .find(
+    {
+      movie_id: { $eq: ObjectId("573a1399f29313caabcee886") },
+      date: {
+        $gte: ISODate("2014-01-01T00:00:00Z"),
+        $lte: ISODate("2016-12-31T23:59:59Z"),
+      },
+    },
+    { name: 1, email: 1, text: 1, date: 1 }
+  )
+  .sort({ date: -1 })
+  .forEach((doc) => printjson(doc));
+
+db.comments
+  .find(
+    {
+      movie_id: { $eq: ObjectId("573a1399f29313caabcee886") },
+      date: {
+        $gte: ISODate("2014-01-01T00:00:00Z"),
+        $lte: ISODate("2016-12-31T23:59:59Z"),
+      },
+    },
+    { name: 0, email: 0, text: 0, date: 0, _id: 0 }
+  )
+  .count();
