@@ -130,3 +130,11 @@ db.comments.updateOne(
   { $set: { text: "mi mejor comentario", date: new Date() } }
 );
 db.comments.findOne({ _id: ObjectId("5b72236520a3277c015b3b73") });
+
+//Ejercicio 8
+db.users.updateOne(
+  { email: "joel.macdonel@fakegmail.com" },
+  { $set: { password: "some password" } },
+  { upsert: true }
+);
+db.users.findOne({ email: "joel.macdonel@fakegmail.com" });
