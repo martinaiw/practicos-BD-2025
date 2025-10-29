@@ -94,3 +94,15 @@ db.comments
   )
   .sort({ date: -1 })
   .limit(3);
+
+//Ejercicio 5
+db.movies
+  .find(
+    {
+      genres: { $all: ["Drama", "Action"] },
+      languages: { $size: 1 },
+      $or: [{ "imdb.rating": { $gt: 9 } }, { runtime: { $gte: 180 } }],
+    },
+    { _id: 0, title: 1, languages: 1, genres: 1, released: 1, "imdb.votes": 1 }
+  )
+  .sort({ released: -1 }, { "imdb.votes": -1 }, { _id: 1 });
