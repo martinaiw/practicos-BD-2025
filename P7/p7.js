@@ -138,3 +138,23 @@ db.users.updateOne(
   { upsert: true }
 );
 db.users.findOne({ email: "joel.macdonel@fakegmail.com" });
+
+//Primera ejecucion: inserta un nuevo documento
+//Segunda ejecucion: actualiza el documento existente
+
+//Ejercicio 9
+db.comments.find({
+  email: "victor_patel@fakegmail.com",
+  date: {
+    $gte: ISODate("2015-01-01T00:00:00Z"),
+    $lte: ISODate("2015-12-31T23:59:59Z"),
+  },
+}).count();
+
+db.comments.deleteMany({
+  email: "victor_patel@fakegmail.com",
+  date: {
+    $gte: ISODate("2015-01-01T00:00:00Z"),
+    $lte: ISODate("2015-12-31T23:59:59Z"),
+  },
+});
