@@ -5,7 +5,7 @@
 📦practicos-BD-2025
  ┣ 📂.git
  ┣ 📂P1
- ┃ ┣ algún dia :P
+ ┃ ┗ algún dia :P
  ┣ 📂P2
  ┃ ┣ 📜1_clean-and-create.sql
  ┃ ┣ 📜2_initial-scheme.sql
