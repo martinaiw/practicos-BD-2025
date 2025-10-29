@@ -106,3 +106,19 @@ db.movies
     { _id: 0, title: 1, languages: 1, genres: 1, released: 1, "imdb.votes": 1 }
   )
   .sort({ released: -1 }, { "imdb.votes": -1 }, { _id: 1 });
+
+//Ejercicio 6
+db.theaters
+  .find(
+    {
+      "location.address.state": { $in: ["CA", "NY", "TX"] },
+      "location.address.city": /^F/,
+    },
+    {
+      theaterId: 1,
+      "location.address.state": 1,
+      "location.address.city": 1,
+      "locations.geo.coordinates": 1,
+    }
+  )
+  .sort({ "location.address.state": -1 }, { "location.address.city": -1 });
