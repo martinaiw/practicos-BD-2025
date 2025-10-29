@@ -85,3 +85,12 @@ db.comments
     { name: 0, email: 0, text: 0, date: 0, _id: 0 }
   )
   .count();
+
+//Ejercicio 4
+db.comments
+  .find(
+    { email: "patricia_good@fakegmail.com" },
+    { _id: 0, name: 1, movie_id: 1, text: 1, date: 1 }
+  )
+  .sort({ date: -1 })
+  .limit(3);
