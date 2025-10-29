@@ -41,3 +41,20 @@ db.comments.insertMany([
     text: "uhmm actuali",
   },
 ]);
+
+
+//Ejercicio 2
+
+db.movies
+  .find(
+    {
+      year: { $gte: "1990", $lte: "1999"},
+      "imdb.rating": { $type: "double" },
+    },
+    { title: 1, year: 1, cast: 1, directors: 1, "imdb.rating": 1 }
+  )
+  .sort({ "imdb.rating": -1 })
+  .limit(10)
+  .forEach(printjson);
+
+//La pelicula con mayor rating tiene 9 puntos
