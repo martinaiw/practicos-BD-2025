@@ -143,13 +143,15 @@ db.users.findOne({ email: "joel.macdonel@fakegmail.com" });
 //Segunda ejecucion: actualiza el documento existente
 
 //Ejercicio 9
-db.comments.find({
-  email: "victor_patel@fakegmail.com",
-  date: {
-    $gte: ISODate("2015-01-01T00:00:00Z"),
-    $lte: ISODate("2015-12-31T23:59:59Z"),
-  },
-}).count();
+db.comments
+  .find({
+    email: "victor_patel@fakegmail.com",
+    date: {
+      $gte: ISODate("2015-01-01T00:00:00Z"),
+      $lte: ISODate("2015-12-31T23:59:59Z"),
+    },
+  })
+  .count();
 
 db.comments.deleteMany({
   email: "victor_patel@fakegmail.com",
@@ -158,3 +160,15 @@ db.comments.deleteMany({
     $lte: ISODate("2015-12-31T23:59:59Z"),
   },
 });
+
+//Ejercicio 10
+db.restaurants.find(
+  {
+    "grades.date": {
+      $gte: ISODate("2014-01-01T00:00:00Z"),
+      $lte: ISODate("2015-12-31T23:59:59Z"),
+    },
+    "grades.score": { $gt: 70, $lte: 90 },
+  },
+  { restaurant_id: 1, grades: 1 }
+);
