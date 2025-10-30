@@ -8,7 +8,6 @@ db.theaters.aggregate([
 ]);
 
 /*
-Listar los 10 géneros con mayor cantidad de películas (tener en cuenta que las películas pueden tener más de un género). Devolver el género y la cantidad de películas. Hint: unwind puede ser de utilidad
 Top 10 de usuarios con mayor cantidad de comentarios, mostrando Nombre, Email y Cantidad de Comentarios.
 Ratings de IMDB promedio, mínimo y máximo por año de las películas estrenadas en los años 80 (desde 1980 hasta 1989), ordenados de mayor a menor por promedio del año.
 Título, año y cantidad de comentarios de las 10 películas con más comentarios.
@@ -53,5 +52,15 @@ db.movies.aggregate([
   { $match: { year: { $gte: 1950, $lte: 1959 } } },
   { $count: "cantidad de peliculas estrenadas entre 1950 y 1959" },
 ]);
-
 db.movies.find({ year: { $gte: 1950, $lte: 1959 } }).count();
+
+// Ejercicio 5 - Listar los 10 géneros con mayor cantidad de películas
+// (tener en cuenta que las películas pueden tener más de un género).
+// Devolver el género y la cantidad de películas. Hint: unwind puede ser de utilidad
+db.movies.aggregate([
+  { $unwind: "$genres" }, //separo el arreglo Genres de cada documento
+  { $group: { _id: "$genres", count: { $sum: 1 } } }, //agrupo por genero y cuento cuantas veces aparece cada uno
+  { $sort: { count: -1 } }, // ordeno de mayor a menor
+  { $limit: 10 }, // muestro solo 10
+  { $project: { _id: 0, Genero: "$_id", Cantidad: "$count" } }, // formateo la salida, no muestro id, el id de la agrupacion ahora es Genero y count es Cantidad
+]);
