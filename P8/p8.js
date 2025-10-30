@@ -102,24 +102,31 @@ db.movies.aggregate([
   },
 ]);
 
-/*
-Crear una vista con los 5 géneros con mayor cantidad de comentarios, junto con la cantidad de comentarios.
-Listar los actores (cast) que trabajaron en 2 o más películas dirigidas por "Jules Bass". Devolver el nombre de estos actores junto con la lista de películas (solo título y año) dirigidas por “Jules Bass” en las que trabajaron. 
-Hint1: addToSet
-Hint2: {'name.2': {$exists: true}} permite filtrar arrays con al menos 2 elementos, entender por qué.
-Hint3: Puede que tu solución no use Hint1 ni Hint2 e igualmente sea correcta
-Listar los usuarios que realizaron comentarios durante el mismo mes de lanzamiento de la película comentada, mostrando Nombre, Email, fecha del comentario, título de la película, fecha de lanzamiento. HINT: usar $lookup con multiple condiciones 
-Listar el id y nombre de los restaurantes junto con su puntuación máxima, mínima y la suma total. Se puede asumir que el restaurant_id es único.
-Resolver con $group y accumulators.
-Resolver con expresiones sobre arreglos (por ejemplo, $sum) pero sin $group.
-Resolver como en el punto b) pero usar $reduce para calcular la puntuación total.
-Resolver con find.
-Actualizar los datos de los restaurantes añadiendo dos campos nuevos. 
-"average_score": con la puntuación promedio
-"grade": con "A" si "average_score" está entre 0 y 13, 
-  con "B" si "average_score" está entre 14 y 27 
-  con "C" si "average_score" es mayor o igual a 28    
-Se debe actualizar con una sola query.
-HINT1. Se puede usar pipeline de agregación con la operación update
-HINT2. El operador $switch o $cond pueden ser de ayuda.
-*/
+// Ejercicio 9 - Crear una vista con los 5 géneros con mayor cantidad de comentarios, 
+// junto con la cantidad de comentarios.
+
+
+// Ejercicio 10 - Listar los actores (cast) que trabajaron en 2 o más películas dirigidas por "Jules Bass". Devolver el nombre de estos actores junto con la lista de películas (solo título y año) dirigidas por “Jules Bass” en las que trabajaron. 
+//    Hint1: addToSet
+//    Hint2: {'name.2': {$exists: true}} permite filtrar arrays con al menos 2 elementos, entender por qué.
+//    Hint3: Puede que tu solución no use Hint1 ni Hint2 e igualmente sea correcta
+
+
+// Ejercicio 11 - Listar los usuarios que realizaron comentarios durante el mismo mes de lanzamiento de la película comentada, mostrando Nombre, Email, fecha del comentario, título de la película, fecha de lanzamiento. HINT: usar $lookup con multiple condiciones 
+
+// Ejercicio 12 - Listar el id y nombre de los restaurantes junto con su puntuación máxima, mínima y la suma total. Se puede asumir que el restaurant_id es único.
+//    Resolver con $group y accumulators.
+//    Resolver con expresiones sobre arreglos (por ejemplo, $sum) pero sin $group.
+//    Resolver como en el punto b) pero usar $reduce para calcular la puntuación total.
+//    Resolver con find.
+
+
+// Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos. 
+//      "average_score": con la puntuación promedio
+//      "grade": con "A" si "average_score" está entre 0 y 13, 
+//          con "B" si "average_score" está entre 14 y 27 
+//          con "C" si "average_score" es mayor o igual a 28    
+//  Se debe actualizar con una sola query.
+//       HINT1. Se puede usar pipeline de agregación con la operación update
+//       HINT2. El operador $switch o $cond pueden ser de ayuda.
+
