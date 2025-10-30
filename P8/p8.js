@@ -8,7 +8,6 @@ db.theaters.aggregate([
 ]);
 
 /*
-Cantidad de películas dirigidas por "Louis Lumière". Se puede responder sin pipeline de agregación, realizar ambas queries.
 Cantidad de películas estrenadas en los años 50 (desde 1950 hasta 1959). Se puede responder sin pipeline de agregación, realizar ambas queries.
 Listar los 10 géneros con mayor cantidad de películas (tener en cuenta que las películas pueden tener más de un género). Devolver el género y la cantidad de películas. Hint: unwind puede ser de utilidad
 Top 10 de usuarios con mayor cantidad de comentarios, mostrando Nombre, Email y Cantidad de Comentarios.
@@ -40,3 +39,11 @@ db.theaters.aggregate([
   { $match: { count: { $gte: 2 } } },
   { $count: "estados con al menos 2 cines" },
 ]);
+
+// Ejercicio 3 - Cantidad de películas dirigidas por "Louis Lumière".
+// Se puede responder sin pipeline de agregación, realizar ambas queries.
+db.movies.aggregate([
+  { $match: { directors: "Louis Lumière" } },
+  { $count: "peliculas dirigidas por Louis Lumière" },
+]);
+db.movies.find({ directors: { $eq: "Louis Lumière" } }).count();
