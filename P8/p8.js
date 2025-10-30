@@ -8,7 +8,6 @@ db.theaters.aggregate([
 ]);
 
 /*
-Top 10 de usuarios con mayor cantidad de comentarios, mostrando Nombre, Email y Cantidad de Comentarios.
 Ratings de IMDB promedio, mínimo y máximo por año de las películas estrenadas en los años 80 (desde 1980 hasta 1989), ordenados de mayor a menor por promedio del año.
 Título, año y cantidad de comentarios de las 10 películas con más comentarios.
 Crear una vista con los 5 géneros con mayor cantidad de comentarios, junto con la cantidad de comentarios.
@@ -63,4 +62,20 @@ db.movies.aggregate([
   { $sort: { count: -1 } }, // ordeno de mayor a menor
   { $limit: 10 }, // muestro solo 10
   { $project: { _id: 0, Genero: "$_id", Cantidad: "$count" } }, // formateo la salida, no muestro id, el id de la agrupacion ahora es Genero y count es Cantidad
+]);
+
+// Ejercicio 6 - Top 10 de usuarios con mayor cantidad de comentarios,
+// mostrando Nombre, Email y Cantidad de Comentarios.
+db.comments.aggregate([
+  { $group: { _id: { email: "$email", name: "$name" }, count: { $sum: 1 } } },
+  { $sort: { count: -1 } },
+  { $limit: 10 },
+  {
+    $project: {
+      _id: 0,
+      "Nombre": "$_id.name",
+      "Email": "$_id.email",
+      "Cantidad de comentarios": "$count",
+    },
+  },
 ]);
