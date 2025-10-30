@@ -135,10 +135,37 @@ db.createView("genres_with_most_comments", "movies", [
   },
 ]);
 
-// Ejercicio 10 - Listar los actores (cast) que trabajaron en 2 o más películas dirigidas por "Jules Bass". Devolver el nombre de estos actores junto con la lista de películas (solo título y año) dirigidas por “Jules Bass” en las que trabajaron.
+db.genres_with_most_comments.find();
+
+// Ejercicio 10 - Listar los actores (cast) que trabajaron en 2 o más películas dirigidas
+// por "Jules Bass". Devolver el nombre de estos actores junto con la lista de películas
+// (solo título y año) dirigidas por “Jules Bass” en las que trabajaron.
 //    Hint1: addToSet
 //    Hint2: {'name.2': {$exists: true}} permite filtrar arrays con al menos 2 elementos, entender por qué.
 //    Hint3: Puede que tu solución no use Hint1 ni Hint2 e igualmente sea correcta
+
+db.movies.aggregate([
+  {
+    $match: { directors: "Jules Bass" }, // filtro todas las pelis dirigidas por jules bass
+  },
+  { $unwind: "$cast" }, // separo el arreglo de actores
+  {
+    $group: { // junto todo los documentos sueltos
+      _id: "$cast", // creo un grupo para cada actor, el _id es el criterio para agrupar
+      movies: { //creo un nuevo campo movies que tiene titulo y año de la pelicula
+        $addToSet: { title: "$title", year: "$year" }, // guardo sin repetir año y titlo de cada pelicula de ese actor
+      },
+    },
+  },
+  { $match: { "movies.1": { $exists: true } } }, //chequeo que haya >=2 peliculas, ese movies es el que creé arriba en $group
+  {
+    $project: {
+      _id: 0,
+      Actor: "$_id",
+      Pelicula: "$movies",
+    },
+  },
+]);
 
 // Ejercicio 11 - Listar los usuarios que realizaron comentarios durante el mismo mes de lanzamiento de la película comentada, mostrando Nombre, Email, fecha del comentario, título de la película, fecha de lanzamiento. HINT: usar $lookup con multiple condiciones
 
