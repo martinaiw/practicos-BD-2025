@@ -8,7 +8,6 @@ db.theaters.aggregate([
 ]);
 
 /*
-Cantidad de películas estrenadas en los años 50 (desde 1950 hasta 1959). Se puede responder sin pipeline de agregación, realizar ambas queries.
 Listar los 10 géneros con mayor cantidad de películas (tener en cuenta que las películas pueden tener más de un género). Devolver el género y la cantidad de películas. Hint: unwind puede ser de utilidad
 Top 10 de usuarios con mayor cantidad de comentarios, mostrando Nombre, Email y Cantidad de Comentarios.
 Ratings de IMDB promedio, mínimo y máximo por año de las películas estrenadas en los años 80 (desde 1980 hasta 1989), ordenados de mayor a menor por promedio del año.
@@ -47,3 +46,12 @@ db.movies.aggregate([
   { $count: "peliculas dirigidas por Louis Lumière" },
 ]);
 db.movies.find({ directors: { $eq: "Louis Lumière" } }).count();
+
+// Ejercicio 4 - Cantidad de películas estrenadas en los años 50 (desde 1950 hasta 1959).
+// Se puede responder sin pipeline de agregación, realizar ambas queries.
+db.movies.aggregate([
+  { $match: { year: { $gte: 1950, $lte: 1959 } } },
+  { $count: "cantidad de peliculas estrenadas entre 1950 y 1959" },
+]);
+
+db.movies.find({ year: { $gte: 1950, $lte: 1959 } }).count();
