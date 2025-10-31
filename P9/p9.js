@@ -156,8 +156,14 @@ db.runCommand({
       bsonType: "object",
       required: ["title", "year"],
       properties: {
-        title: { bsonType: "string" },
-        year: { bsonType: "int", minimum: 1900, maximum: 3000 },
+        title: { 
+          bsonType: "string" 
+        },
+        year: { 
+          bsonType: "int", 
+          minimum: 1900, 
+          maximum: 3000 
+        },
         cast: {
           bsonType: "array",
           uniqueItems: true,
@@ -173,12 +179,44 @@ db.runCommand({
           uniqueItems: true,
           items: { bsonType: "string" },
         },
+        genres: {
+          bsonType: "array",
+          uniqueItems: true,
+          items: { bsonType: "string" },
+        },
       },
     },
   },
 });
 
-// Ejercicio 5 - Crear una colección userProfiles con las siguientes reglas de validación: Tenga un campo user_id (requerido) de tipo “objectId”, un campo language (requerido) con alguno de los siguientes valores [ “English”, “Spanish”, “Portuguese” ] y un campo favorite_genres (no requerido) que sea un array de strings sin duplicados.
+// Ejercicio 5 - Crear una colección userProfiles con las siguientes reglas de validación:
+// Tenga un campo user_id (requerido) de tipo “objectId”, un campo language (requerido) con
+// alguno de los siguientes valores [ “English”, “Spanish”, “Portuguese” ] y un campo
+// favorite_genres (no requerido) que sea un array de strings sin duplicados.
+db.createCollection("userProfiles", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      requires: ["user_id", "language"],
+      properties: {
+        user_id: { bsonType: "objectId" },
+        language: { enum: ["English", "Spanish", "Portuguese"] },
+        favorite_genres: {
+          bsonType: "array",
+          items: { bsonType: "string" },
+          uniqueItems: true,
+        },
+      },
+    },
+  },
+});
 
-// Identificar los distintos tipos de relaciones (One-To-One, One-To-Many) en las colecciones movies y comments. Determinar si se usó documentos anidados o referencias en cada relación y justificar la razón.
-// Dado el diagrama de la base de datos shop junto con las queries más importantes.
+
+//MODELADO DE DATOS
+// Ejercicio 6 - Identificar los distintos tipos de relaciones (One-To-One, One-To-Many) en 
+// las colecciones movies y comments. Determinar si se usó documentos anidados o referencias 
+// en cada relación y justificar la razón.
+
+
+
+// Ejercicio 7 - Dado el diagrama de la base de datos shop junto con las queries más importantes.
