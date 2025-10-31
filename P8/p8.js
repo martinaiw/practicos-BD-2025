@@ -272,12 +272,48 @@ db.restaurants.aggregate([
 ]);
 //d - criminal este ejercicio, no lo voy a hacer :P
 
-
 // Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos.
-//      "average_score": con la puntuación promedio
-//      "grade": con "A" si "average_score" está entre 0 y 13,
+//      a- "average_score": con la puntuación promedio
+//      b- "grade": con "A" si "average_score" está entre 0 y 13,
 //          con "B" si "average_score" está entre 14 y 27
 //          con "C" si "average_score" es mayor o igual a 28
 //  Se debe actualizar con una sola query.
-//       HINT1. Se puede usar pipeline de agregación con la operación update
-//       HINT2. El operador $switch o $cond pueden ser de ayuda.
+//      a- HINT1. Se puede usar pipeline de agregación con la operación update
+//      b- HINT2. El operador $switch o $cond pueden ser de ayuda.
+
+db.restaurants.updateMany(
+  {}, //no hay filtro porque le agrego a todos los restaurantes el average_score
+
+  [
+    { $addFields: { average_score: { $avg: "$grades.score" } } },
+    {
+      $set: {
+        grade: {
+          $switch: {
+            branches: [
+              {
+                case: {
+                  $and: [
+                    { $gte: ["$average_score", 0] },
+                    { $lte: ["$average_score", 13] },
+                  ],
+                },
+                then: "A",
+              },
+              {
+                case: {
+                  $and: [
+                    { $gte: ["$average_score", 14] },
+                    { $lte: ["$average_score", 27] },
+                  ],
+                },
+                then: "B",
+              },
+            ],
+            default: "C", // Para el caso >= 28
+          },
+        },
+      },
+    },
+  ]
+);
