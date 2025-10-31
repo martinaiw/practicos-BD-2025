@@ -232,12 +232,24 @@ db.restaurants.aggregate([
   {
     $project: {
       _id: 0,
-      Restaurant: "$_id.nombre",
+      restaurant: "$_id.nombre",
       "Puntaje maximo": "$max",
       "Puntaje minimo": "$min",
       "Suma total": "$total",
     },
-  },
+  }
+]);
+
+db.restaurants.aggregate([
+  {
+    $project: {
+      _id: 0,
+      restaurant: "$name",
+      max: { $max: "$grades.score" },
+      min: { $min: "$grades.score" },
+      total: { $sum: "$grades.score" },
+    },
+  }
 ]);
 
 // Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos.
