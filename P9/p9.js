@@ -143,6 +143,42 @@ db.runCommand({
   validationAction: "warn",
 });
 
-// Ejercicio 4 - Especificar en la colección movies las siguientes reglas de validación: El campo title (requerido) es de tipo string, year (requerido) int con mínimo en 1900 y máximo en 3000, y que tanto cast, directors, countries, como genres sean arrays de strings sin duplicados.
-// Hint: Usar el constructor NumberInt() para especificar valores enteros a la hora de insertar documentos. Recordar que mongo shell es un intérprete javascript y en javascript los literales numéricos son de tipo Number (double).
+// Ejercicio 4 - Especificar en la colección movies las siguientes reglas de validación:
+// El campo title (requerido) es de tipo string, year (requerido) int con mínimo en 1900 y máximo
+// en 3000, y que tanto cast, directors, countries, como genres sean arrays de strings sin duplicados.
+// Hint: Usar el constructor NumberInt() para especificar valores enteros a la hora de insertar documentos.
+// Recordar que mongo shell es un intérprete javascript y en javascript los literales numéricos
+// son de tipo Number (double).
+db.runCommand({
+  collMod: "movies",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["title", "year"],
+      properties: {
+        title: { bsonType: "string" },
+        year: { bsonType: "int", minimum: 1900, maximum: 3000 },
+        cast: {
+          bsonType: "array",
+          uniqueItems: true,
+          items: { bsonType: "string" },
+        },
+        directors: {
+          bsonType: "array",
+          uniqueItems: true,
+          items: { bsonType: "string" },
+        },
+        countries: {
+          bsonType: "array",
+          uniqueItems: true,
+          items: { bsonType: "string" },
+        },
+      },
+    },
+  },
+});
+
 // Ejercicio 5 - Crear una colección userProfiles con las siguientes reglas de validación: Tenga un campo user_id (requerido) de tipo “objectId”, un campo language (requerido) con alguno de los siguientes valores [ “English”, “Spanish”, “Portuguese” ] y un campo favorite_genres (no requerido) que sea un array de strings sin duplicados.
+
+// Identificar los distintos tipos de relaciones (One-To-One, One-To-Many) en las colecciones movies y comments. Determinar si se usó documentos anidados o referencias en cada relación y justificar la razón.
+// Dado el diagrama de la base de datos shop junto con las queries más importantes.
