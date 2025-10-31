@@ -212,14 +212,33 @@ db.comments.aggregate([
   },
 ]);
 
-// Ejercicio 12 - Listar el id y nombre de los restaurantes junto con su puntuación máxima, mínima y la suma total. Se puede asumir que el restaurant_id es único.
+// Ejercicio 12 - Listar el id y nombre de los restaurantes junto con su
+// puntuación máxima, mínima y la suma total. Se puede asumir que el restaurant_id es único.
 //   a- Resolver con $group y accumulators.
 //   b- Resolver con expresiones sobre arreglos (por ejemplo, $sum) pero sin $group.
 //   c- Resolver como en el punto b) pero usar $reduce para calcular la puntuación total.
 //   d- Resolver con find.
 
-
-
+db.restaurants.aggregate([
+  { $unwind: "$grades" },
+  {
+    $group: {
+      _id: { id: "$_id", nombre: "$name" },
+      max: { $max: "$grades.score" },
+      min: { $min: "$grades.score" },
+      total: { $sum: "$grades.score" },
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      Restaurant: "$_id.nombre",
+      "Puntaje maximo": "$max",
+      "Puntaje minimo": "$min",
+      "Suma total": "$total",
+    },
+  },
+]);
 
 // Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos.
 //      "average_score": con la puntuación promedio
