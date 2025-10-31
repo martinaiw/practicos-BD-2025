@@ -219,6 +219,7 @@ db.comments.aggregate([
 //   c- Resolver como en el punto b) pero usar $reduce para calcular la puntuación total.
 //   d- Resolver con find.
 
+//a
 db.restaurants.aggregate([
   { $unwind: "$grades" },
   {
@@ -237,9 +238,9 @@ db.restaurants.aggregate([
       "Puntaje minimo": "$min",
       "Suma total": "$total",
     },
-  }
+  },
 ]);
-
+//b
 db.restaurants.aggregate([
   {
     $project: {
@@ -249,8 +250,28 @@ db.restaurants.aggregate([
       min: { $min: "$grades.score" },
       total: { $sum: "$grades.score" },
     },
-  }
+  },
 ]);
+
+//c
+db.restaurants.aggregate([
+  {
+    $project: {
+      _id: 0,
+      restaurant: "$name",
+      max: { $max: "$grades.score" },
+      min: { $min: "$grades.score" },
+      total: {
+        $reduce: {
+          input: "$grades.score",
+          initialValue: 0,
+          in: { $add: ["$$value", "$$this"] },
+        },
+      },
+    },
+  },
+]);
+
 
 // Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos.
 //      "average_score": con la puntuación promedio
