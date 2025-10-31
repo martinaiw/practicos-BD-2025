@@ -150,9 +150,11 @@ db.movies.aggregate([
   },
   { $unwind: "$cast" }, // separo el arreglo de actores
   {
-    $group: { // junto todo los documentos sueltos
+    $group: {
+      // junto todo los documentos sueltos
       _id: "$cast", // creo un grupo para cada actor, el _id es el criterio para agrupar
-      movies: { //creo un nuevo campo movies que tiene titulo y año de la pelicula
+      movies: {
+        //creo un nuevo campo movies que tiene titulo y año de la pelicula
         $addToSet: { title: "$title", year: "$year" }, // guardo sin repetir año y titlo de cada pelicula de ese actor
       },
     },
@@ -167,13 +169,57 @@ db.movies.aggregate([
   },
 ]);
 
-// Ejercicio 11 - Listar los usuarios que realizaron comentarios durante el mismo mes de lanzamiento de la película comentada, mostrando Nombre, Email, fecha del comentario, título de la película, fecha de lanzamiento. HINT: usar $lookup con multiple condiciones
+// Ejercicio 11 - Listar los usuarios que realizaron comentarios durante el
+// mismo mes de lanzamiento de la película comentada, mostrando Nombre, Email,
+// fecha del comentario, título de la película, fecha de lanzamiento.
+// HINT: usar $lookup con multiple condiciones
+
+db.comments.aggregate([
+  {
+    $lookup: {
+      from: "movies",
+      localField: "movie_id",
+      foreignField: "_id",
+      as: "movies",
+    },
+  },
+  { $unwind: "$movies" },
+  {
+    $addFields: {
+      fecha_pelicula: {
+        mes: { $month: "$movies.released" },
+        anio: { $year: "$movies.released" },
+      },
+      fecha_comentario: { mes: { $month: "$date" }, anio: { $year: "$date" } },
+    },
+  },
+  {
+    $match: {
+      $expr: {
+        $eq: ["$fecha_pelicula", "$fecha_comentario"],
+      },
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      name: "$name",
+      email: "$email",
+      date: "$date",
+      movie: "$movies.title",
+      launching_date: "$movies.released",
+    },
+  },
+]);
 
 // Ejercicio 12 - Listar el id y nombre de los restaurantes junto con su puntuación máxima, mínima y la suma total. Se puede asumir que el restaurant_id es único.
-//    Resolver con $group y accumulators.
-//    Resolver con expresiones sobre arreglos (por ejemplo, $sum) pero sin $group.
-//    Resolver como en el punto b) pero usar $reduce para calcular la puntuación total.
-//    Resolver con find.
+//   a- Resolver con $group y accumulators.
+//   b- Resolver con expresiones sobre arreglos (por ejemplo, $sum) pero sin $group.
+//   c- Resolver como en el punto b) pero usar $reduce para calcular la puntuación total.
+//   d- Resolver con find.
+
+
+
 
 // Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos.
 //      "average_score": con la puntuación promedio
