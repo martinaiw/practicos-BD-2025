@@ -252,7 +252,6 @@ db.restaurants.aggregate([
     },
   },
 ]);
-
 //c
 db.restaurants.aggregate([
   {
@@ -271,6 +270,7 @@ db.restaurants.aggregate([
     },
   },
 ]);
+//d - criminal este ejercicio, no lo voy a hacer :P
 
 
 // Ejercicio 13 - Actualizar los datos de los restaurantes añadiendo dos campos nuevos.
