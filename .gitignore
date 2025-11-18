@@ -1,0 +1,11 @@
+*.swp
+*.sh
+
+/restaurantdb
+/mflix
+/parcial-2
+/Parciales_viejos
+/P1/.dbeaver
+/P1/Scripts
+*.project
+P2/.project
